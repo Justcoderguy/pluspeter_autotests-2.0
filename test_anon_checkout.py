@@ -13,16 +13,18 @@ class UntitledTestCase(unittest.TestCase):
     def test_untitled_test_case(self):
         self.open_home_page()
         self.add_standard_volume()
-        self.add_document("C:\\Users\\pzakharevich\\Desktop\\"
+        self.add_document(pdf="C:\\Users\\pzakharevich\\Desktop\\"
                           "Image attachments\\Testdata\\25.pdf")
-        self.set_volume_options("Stan-dard )by( }{b0t!][", "1c", "punched", "green")
-        self.set_profile("m", "de", "Adalbert", "Hoffmann", "adal95@hotmal.com.de", "Mainstrasse", "2311",
-                         "004911234567890", "45-Y/T", "Berlin", "13512")
+        self.set_volume_options(content_color="1c", binding="punched",
+                                cover_color="green", title="Stan-dard )by( }{b0t!][")
+        self.set_profile(title="m", country="de", name="Adalbert", surname="Hoffmann",
+                         priv_email="adal95@hotmal.com.de", address="Mainstrasse", house_number="2311",
+                         phone="004911234567890", addit_address="45-Y/T", city="Berlin", zip_code="13512")
         self.mark_standard_checkboxes()
         self.cc_checkout("4242424242424242", "0223", "132", "3454")
-        self.close_checkout_success()
+        self.close_success_page()
 
-    def close_checkout_success(self):
+    def close_success_page(self):
         wd = self.wd
         WebDriverWait(wd, 60).until(ec.visibility_of_element_located((By.XPATH, "//main/div/a/img"))).click()
 
@@ -83,7 +85,7 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_id("wizard_profile_update_btn").click()
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
 
-    def set_volume_options(self, title, content_color, binding, cover_color):
+    def set_volume_options(self, content_color, binding, cover_color, title):
         wd = self.wd
         wd.find_element_by_css_selector("div.profil-select.select-search-input.div-as-input").click()
         wd.find_element_by_xpath("//div[@value='%s']" % content_color).click()
