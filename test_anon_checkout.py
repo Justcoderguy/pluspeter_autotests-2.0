@@ -11,20 +11,23 @@ class UntitledTestCase(unittest.TestCase):
         self.wd = webdriver.Chrome()
 
     def test_untitled_test_case(self):
-        wd = self.wd
-        self.open_home_page(wd)
-        self.add_standard_volume(wd)
-        self.add_document(wd)
-        self.set_volume_options(wd)
-        self.set_profile(wd)
-        self.mark_standard_checkboxes(wd)
-        self.cc_checkout(wd)
-        self.close_checkout_success(wd)
+        self.open_home_page()
+        self.add_standard_volume()
+        self.add_document("C:\\Users\\pzakharevich\\Desktop\\"
+                          "Image attachments\\Testdata\\25.pdf")
+        self.set_volume_options("Stan-dard )by( }{b0t!][", "1c", "punched", "green")
+        self.set_profile("m", "de", "Adalbert", "Hoffmann", "adal95@hotmal.com.de", "Mainstrasse", "2311",
+                         "004911234567890", "45-Y/T", "Berlin", "13512")
+        self.mark_standard_checkboxes()
+        self.cc_checkout("4242424242424242", "0223", "132", "3454")
+        self.close_checkout_success()
 
-    def close_checkout_success(self, wd):
+    def close_checkout_success(self):
+        wd = self.wd
         WebDriverWait(wd, 60).until(ec.visibility_of_element_located((By.XPATH, "//main/div/a/img"))).click()
 
-    def cc_checkout(self, wd, card_number="4242424242424242", month_year="0223", cvc="132", zip_code="3454"):
+    def cc_checkout(self, card_number, month_year, cvc, zip_code):
+        wd = self.wd
         wd.find_element_by_xpath("//div[2]/label/span").click()
         wd.find_element_by_id("paypalPayment").click()
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
@@ -41,13 +44,14 @@ class UntitledTestCase(unittest.TestCase):
         wd.switch_to.default_content()
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
 
-    def mark_standard_checkboxes(self, wd):
+    def mark_standard_checkboxes(self):
+        wd = self.wd
         wd.find_element_by_css_selector("label").click()
         wd.find_element_by_xpath("//label/span").click()
 
-    def set_profile(self, wd, title="m", country="de", name="Adalbert", surname="Hoffmann",
-                    priv_email="adal95@hotmal.com.de", phone="004911234567890", address="Mainstrasse",
-                    house_number="2311", addit_address="45-Y/T", city="Berlin", zip_code="13512"):
+    def set_profile(self, title, country, name, surname, priv_email, address,
+                    house_number, phone, addit_address, city, zip_code):
+        wd = self.wd
         wd.find_element_by_xpath("//a[@class='letter-file']").click()
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
         wd.find_element_by_id("title_input").click()
@@ -79,8 +83,8 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_id("wizard_profile_update_btn").click()
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
 
-    def set_volume_options(self, wd, title="Stan-dard )by( }{b0t!][", content_color="1c",
-                           binding="punched", cover_color="green", ):
+    def set_volume_options(self, title, content_color, binding, cover_color):
+        wd = self.wd
         wd.find_element_by_css_selector("div.profil-select.select-search-input.div-as-input").click()
         wd.find_element_by_xpath("//div[@value='%s']" % content_color).click()
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
@@ -96,16 +100,18 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_xpath('//body').click()
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
 
-    def add_document(self, wd, pdf="C:\\Users\\pzakharevich\\Desktop\\"
-                                   "Image attachments\\Testdata\\25.pdf"):
+    def add_document(self, pdf):
+        wd = self.wd
         wd.find_element_by_name("file-input").send_keys(pdf)
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
 
-    def add_standard_volume(self, wd):
+    def add_standard_volume(self):
+        wd = self.wd
         wd.find_element_by_id("print_europe").click()
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
 
-    def open_home_page(self, wd):
+    def open_home_page(self):
+        wd = self.wd
         wd.get("https://staging.pluspeter.com/")
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
 
