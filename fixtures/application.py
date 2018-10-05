@@ -2,43 +2,21 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
+from fixtures.standard_wizard_actions import StandardWizard
 __author__ = 'pzqa'
 
 
 class Application:
     def __init__(self):
         self.wd = webdriver.Chrome()
+        self.wait = WebDriverWait
+        self.ec = ec
+        self.by = By
+        self.wizard = StandardWizard(self)
 
     def open_home_page(self):
         wd = self.wd
         wd.get("https://staging.pluspeter.com/")
-        WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
-
-    def add_standard_volume(self):
-        wd = self.wd
-        wd.find_element_by_id("print_europe").click()
-        WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
-
-    def add_document(self, pdf):
-        wd = self.wd
-        wd.find_element_by_name("file-input").send_keys(pdf)
-        WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
-
-    def set_volume_options(self, checkout):
-        wd = self.wd
-        wd.find_element_by_css_selector("div.profil-select.select-search-input.div-as-input").click()
-        wd.find_element_by_xpath("//div[@value='%s']" % checkout.content_color).click()
-        WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
-        wd.find_element_by_xpath("//div[2]/div/div[2]/div/div").click()
-        wd.find_element_by_xpath("//div[@value='%s']" % checkout.binding).click()
-        WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
-        wd.find_element_by_xpath("//div[2]/div/div[3]/div/div").click()
-        wd.find_element_by_xpath("//div[@value='%s']" % checkout.cover_color).click()
-        WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
-        wd.find_element_by_css_selector("input.large-input").click()
-        wd.find_element_by_css_selector("input.large-input").clear()
-        wd.find_element_by_css_selector("input.large-input").send_keys(checkout.vol_title)
-        wd.find_element_by_xpath('//body').click()
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
 
     def set_profile(self, checkout):
@@ -73,11 +51,6 @@ class Application:
         wd.find_element_by_id("zip_code").send_keys(checkout.zip_code)
         wd.find_element_by_id("wizard_profile_update_btn").click()
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
-
-    def mark_standard_checkboxes(self):
-        wd = self.wd
-        wd.find_element_by_css_selector("label").click()
-        wd.find_element_by_xpath("//label/span").click()
 
     def cc_checkout(self, checkout):
         wd = self.wd
