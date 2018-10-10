@@ -39,6 +39,7 @@ class StandardWizard:
             wd.find_element_by_xpath(field).clear()
             wd.find_element_by_xpath(field).send_keys(value)
             wd.find_element_by_xpath('//body').click()
+            self.wait_loading()
 
     def change_selector_value(self, selector, value):
         wd = self.app.wd
