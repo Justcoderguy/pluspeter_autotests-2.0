@@ -23,21 +23,29 @@ class StandardWizard:
         self.wait_loading()
 
     def set_volume_options(self, checkout):
+        self.change_selector_value(selector="//div[2]/div/div/div[2]/div/div/div/div",
+                                   value=checkout.content_color)
+        self.change_selector_value(selector="//div[2]/div/div[2]/div/div",
+                                   value=checkout.binding)
+        self.change_selector_value(selector="//div[2]/div/div[3]/div/div",
+                                   value=checkout.cover_color)
+        self.change_field_value(field="//input[@class='large-input']", value=checkout.vol_title)
+        self.wait_loading()
+
+    def change_field_value(self, field, value):
         wd = self.app.wd
-        wd.find_element_by_css_selector("div.profil-select.select-search-input.div-as-input").click()
-        wd.find_element_by_xpath("//div[@value='%s']" % checkout.content_color).click()
-        self.wait_loading()
-        wd.find_element_by_xpath("//div[2]/div/div[2]/div/div").click()
-        wd.find_element_by_xpath("//div[@value='%s']" % checkout.binding).click()
-        self.wait_loading()
-        wd.find_element_by_xpath("//div[2]/div/div[3]/div/div").click()
-        wd.find_element_by_xpath("//div[@value='%s']" % checkout.cover_color).click()
-        self.wait_loading()
-        wd.find_element_by_css_selector("input.large-input").click()
-        wd.find_element_by_css_selector("input.large-input").clear()
-        wd.find_element_by_css_selector("input.large-input").send_keys(checkout.vol_title)
-        wd.find_element_by_xpath('//body').click()
-        self.wait_loading()
+        if value is not None:
+            wd.find_element_by_xpath(field).click()
+            wd.find_element_by_xpath(field).clear()
+            wd.find_element_by_xpath(field).send_keys(value)
+            wd.find_element_by_xpath('//body').click()
+
+    def change_selector_value(self, selector, value):
+        wd = self.app.wd
+        if value is not None:
+            wd.find_element_by_xpath(selector).click()
+            wd.find_element_by_xpath("//div[@value='%s']" % value).click()
+            self.wait_loading()
 
     def mark_standard_checkboxes(self):
         wd = self.app.wd

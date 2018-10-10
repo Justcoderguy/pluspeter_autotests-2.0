@@ -12,34 +12,33 @@ class WizardProfile:
         ec = self.app.ec
         wd.find_element_by_xpath("//a[@class='letter-file']").click()
         self.wait_loading(by, ec, wait)
-        wd.find_element_by_id("title_input").click()
-        wd.find_element_by_xpath("//div[@value='%s']" % checkout.title).click()
+        self.change_selector_value(selector="title_input", value=checkout.title)
         wd.find_element_by_xpath("(//div[@id='title_input'])[2]").click()
         wd.find_element_by_xpath("//div[@value='%s']" % checkout.country).click()
-        wd.find_element_by_id("vorname").click()
-        wd.find_element_by_id("vorname").clear()
-        wd.find_element_by_id("vorname").send_keys(checkout.name)
-        wd.find_element_by_id("name").click()
-        wd.find_element_by_id("name").clear()
-        wd.find_element_by_id("name").send_keys(checkout.surname)
-        wd.find_element_by_id("email").click()
-        wd.find_element_by_id("email").clear()
-        wd.find_element_by_id("email").send_keys(checkout.priv_email)
-        wd.find_element_by_id("Handynummer").click()
-        wd.find_element_by_id("Handynummer").clear()
-        wd.find_element_by_id("Handynummer").send_keys(checkout.phone)
-        wd.find_element_by_id("Adresse").clear()
-        wd.find_element_by_id("Adresse").send_keys(checkout.address)
-        wd.find_element_by_id("Hausnummer").clear()
-        wd.find_element_by_id("Hausnummer").send_keys(checkout.house_number)
-        wd.find_element_by_id("Zusatz").clear()
-        wd.find_element_by_id("Zusatz").send_keys(checkout.addit_address)
-        wd.find_element_by_id("Stadt").clear()
-        wd.find_element_by_id("Stadt").send_keys(checkout.city)
-        wd.find_element_by_id("zip_code").clear()
-        wd.find_element_by_id("zip_code").send_keys(checkout.zip_code)
+        self.change_field_value(field="vorname", value=checkout.vorname)
+        self.change_field_value(field="name", value=checkout.name)
+        self.change_field_value(field="email", value=checkout.priv_email)
+        self.change_field_value(field="Handynummer", value=checkout.phone)
+        self.change_field_value(field="Adresse", value=checkout.address)
+        self.change_field_value(field="Hausnummer", value=checkout.house_number)
+        self.change_field_value(field="Zusatz", value=checkout.addit_address)
+        self.change_field_value(field="Stadt", value=checkout.city)
+        self.change_field_value(field="zip_code", value=checkout.zip_code)
         wd.find_element_by_id("wizard_profile_update_btn").click()
         self.wait_loading(by, ec, wait)
+
+    def change_field_value(self, field, value):
+        wd = self.app.wd
+        if value is not None:
+            wd.find_element_by_id(field).click()
+            wd.find_element_by_id(field).clear()
+            wd.find_element_by_id(field).send_keys(value)
+
+    def change_selector_value(self, selector, value):
+        wd = self.app.wd
+        if value is not None:
+            wd.find_element_by_id(selector).click()
+            wd.find_element_by_xpath("//div[@value='%s']" % value).click()
 
     def wait_loading(self, by, ec, wait):
         wd = self.app.wd

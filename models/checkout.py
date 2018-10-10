@@ -10,12 +10,12 @@ class Stripe:
 
 
 class WizardProfile:
-    def __init__(self, title, country, name, surname, priv_email, address,
-                 house_number, phone, addit_address, city, zip_code):
+    def __init__(self, title=None, country=None, vorname=None, name=None, priv_email=None, address=None,
+                 house_number=None, phone=None, addit_address=None, city=None, zip_code=None):
         self.title = title
         self.country = country
+        self.vorname = vorname
         self.name = name
-        self.surname = surname
         self.priv_email = priv_email
         self.address = address
         self.house_number = house_number
@@ -26,7 +26,7 @@ class WizardProfile:
 
 
 class VolumeOptions:
-    def __init__(self, content_color, binding, cover_color, vol_title):
+    def __init__(self, content_color=None, binding=None, cover_color=None, vol_title=None):
         self.content_color = content_color
         self.binding = binding
         self.cover_color = cover_color

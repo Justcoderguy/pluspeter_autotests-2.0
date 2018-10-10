@@ -20,13 +20,15 @@ class Application:
 
     def open_home_page(self):
         wd = self.wd
-        wd.get("https://staging.pluspeter.com/")
+        if not (len(wd.find_elements_by_xpath("//a[contains(text(),'Registrieren')]")) > 0):
+            wd.get("https://staging.pluspeter.com/")
         self.wait_loading()
 
     def close_success_page(self):
         wd = self.wd
         WebDriverWait(wd, 60).until(ec.visibility_of_element_located((By.XPATH, "//main/div/a/img"))).click()
         self.wait_loading()
+        WebDriverWait(wd, 60).until(ec.visibility_of_element_located((By.XPATH, "//div[@class='packages']")))
 
     def wait_loading(self):
         wd = self.wd
