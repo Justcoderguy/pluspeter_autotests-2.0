@@ -21,11 +21,15 @@ class Application:
     def open_home_page(self):
         wd = self.wd
         wd.get("https://staging.pluspeter.com/")
-        WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
+        self.wait_loading()
 
     def close_success_page(self):
         wd = self.wd
         WebDriverWait(wd, 60).until(ec.visibility_of_element_located((By.XPATH, "//main/div/a/img"))).click()
+        self.wait_loading()
+
+    def wait_loading(self):
+        wd = self.wd
         WebDriverWait(wd, 60).until(ec.invisibility_of_element_located((By.XPATH, "//div[@class='loading_box']")))
 
     def destroy(self):

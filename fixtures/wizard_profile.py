@@ -11,7 +11,7 @@ class WizardProfile:
         by = self.app.by
         ec = self.app.ec
         wd.find_element_by_xpath("//a[@class='letter-file']").click()
-        wait(wd, 60).until(ec.invisibility_of_element_located((by.XPATH, "//div[@class='loading_box']")))
+        self.wait_loading(by, ec, wait)
         wd.find_element_by_id("title_input").click()
         wd.find_element_by_xpath("//div[@value='%s']" % checkout.title).click()
         wd.find_element_by_xpath("(//div[@id='title_input'])[2]").click()
@@ -39,4 +39,8 @@ class WizardProfile:
         wd.find_element_by_id("zip_code").clear()
         wd.find_element_by_id("zip_code").send_keys(checkout.zip_code)
         wd.find_element_by_id("wizard_profile_update_btn").click()
+        self.wait_loading(by, ec, wait)
+
+    def wait_loading(self, by, ec, wait):
+        wd = self.app.wd
         wait(wd, 60).until(ec.invisibility_of_element_located((by.XPATH, "//div[@class='loading_box']")))

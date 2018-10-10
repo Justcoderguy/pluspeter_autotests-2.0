@@ -12,7 +12,7 @@ class Stripe:
         ec = self.app.ec
         wd.find_element_by_xpath("//div[2]/label/span").click()
         wd.find_element_by_id("paypalPayment").click()
-        wait(wd, 60).until(ec.invisibility_of_element_located((by.XPATH, "//div[@class='loading_box']")))
+        self.wait_loading(by, ec, wait)
         wait(wd, 60).until(ec.frame_to_be_available_and_switch_to_it('stripe_checkout_app'))
         wd.find_element_by_xpath("//input[@placeholder='Card number']").click()
         wd.find_element_by_xpath("//input[@placeholder='Card number']").send_keys(checkout.card_number)
@@ -24,4 +24,8 @@ class Stripe:
         wd.find_element_by_xpath("//input[@placeholder='ZIP Code']").send_keys(checkout.cc_zip_code)
         wd.find_element_by_xpath("//button[@type='submit']").click()
         wd.switch_to.default_content()
+        self.wait_loading(by, ec, wait)
+
+    def wait_loading(self, by, ec, wait):
+        wd = self.app.wd
         wait(wd, 60).until(ec.invisibility_of_element_located((by.XPATH, "//div[@class='loading_box']")))
