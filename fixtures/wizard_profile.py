@@ -12,9 +12,8 @@ class WizardProfile:
         ec = self.app.ec
         wd.find_element_by_xpath("//a[@class='letter-file']").click()
         self.wait_loading(by, ec, wait)
-        self.change_selector_value(selector="title_input", value=checkout.title)
-        wd.find_element_by_xpath("(//div[@id='title_input'])[2]").click()
-        wd.find_element_by_xpath("//div[@value='%s']" % checkout.country).click()
+        self.change_selector_value(selector="title_list", value=checkout.title)
+        self.change_selector_value(selector="country_list", value=checkout.country)
         self.change_field_value(field="vorname", value=checkout.vorname)
         self.change_field_value(field="name", value=checkout.name)
         self.change_field_value(field="email", value=checkout.priv_email)
